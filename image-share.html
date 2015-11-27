@@ -41,6 +41,11 @@
 {{#if currentUser}}
     <button class="btn btn-success js-add-image-btn">Add Image</button>
 {{/if}}
+{{#if isFilterSet}}
+    <h3>Filtered by user: {{getFilterUser}}
+        <button class="btn btn-warning js-reset-filters">Reset Filters</button>
+    </h3>
+{{/if}}
 
 <div class="row">
     {{#each images}}
@@ -50,6 +55,7 @@
 
             <div class="caption">
                 <h3>Thumbnail label</h3>
+                <p>By: <a href="#" class="js-filter-user">{{getUser createdBy}}</a></p>
                 <p>{{img_alt}}</p>
                 <p>
                     {{> starsRating mutable=true class="js-rate-image" data-id=_id rating=rating}}
