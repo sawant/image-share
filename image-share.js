@@ -5,6 +5,23 @@ if (Meteor.isClient) {
     passwordSignupFields: "USERNAME_AND_EMAIL"
   });
 
+  // Set inital limit to 8 images
+  Session.set("imagesLimit", 8);
+
+  // Detect when the user is about to scroll down to the bottom of the page
+  lastScrollTop = 0;
+  $(window).scroll(function(event) {
+    if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+      var scrollTop = $(window).scrollTop();
+
+      if (scrollTop > lastScrollTop) {
+        Session.set("imagesLimit", Session.get("imagesLimit") + 4);
+      }
+
+      lastScrollTop = scrollTop;
+    }
+  });
+
   Template.body.helpers({
     username: function() {
       if (Meteor.user()) {
@@ -19,10 +36,10 @@ if (Meteor.isClient) {
   Template.images.helpers({
     images: function() {
       if (Session.get("filterByUser")) {
-        return Images.find({createdBy: Session.get("filterByUser")}, {sort: {createdOn: -1, rating: -1}});
+        return Images.find({createdBy: Session.get("filterByUser")}, {sort: {createdOn: -1, rating: -1}, limit: Session.get("imagesLimit")});
       }
       else {
-        return Images.find({}, {sort: {createdOn: -1, rating: -1}});
+        return Images.find({}, {sort: {createdOn: -1, rating: -1}, limit: Session.get("imagesLimit")});
       }
     },
     getUser: function(user_id) {
