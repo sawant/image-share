@@ -11,7 +11,7 @@
 
     {{> image_add_form}}
     <div class="container">
-        <h1>Choose a Dog!</h1>
+        <h1>Hi {{username}}! Please choose a dog.</h1>
 
         {{> images}}
     </div>
@@ -38,7 +38,9 @@
 </template>
 
 <template name="images">
-<button class="btn btn-success js-add-image-btn">Add Image</button>
+{{#if currentUser}}
+    <button class="btn btn-success js-add-image-btn">Add Image</button>
+{{/if}}
 
 <div class="row">
     {{#each images}}
