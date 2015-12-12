@@ -13,5 +13,13 @@ Meteor.startup(function() {
 
         // output number of images in database
         console.log(Images.find().count());
-    } // end if to check if there are no images
+    } // end if that checks if there are no images
+
+    if (Meteor.users.find().count() === 0) {
+        Accounts.createUser({
+            username: 'admin',
+            email: 'admin@test.com',
+            password: 'ReplacePassword937'
+        })
+    }
 });
