@@ -1,3 +1,25 @@
+/// Routing
+Router.configure({
+  layoutTemplate: 'ApplicationLayout'
+});
+
+Router.route('/', function () {
+  this.render('navbar', {to: 'navbar'});
+  this.render('image_add_form', {to: 'addForm'});
+  this.render('container', {to: 'content'});
+});
+
+Router.route('/image/:_id', function() {
+  this.render('image', {
+    to:"content",
+    data: function() {
+        return Images.findOne({_id:this.params._id});
+    }
+  });
+});
+
+/// Accouns configuration
+
 Accounts.ui.config({
   passwordSignupFields: "USERNAME_AND_EMAIL"
 });
@@ -73,9 +95,6 @@ Template.images.helpers({
 });
 
 Template.images.events({
-  'click .js-image': function(event) {
-    $(event.target).css('transform', 'scale(1.5)');
-  },
   'click .js-img-delete': function(event) {
     var image_id = this._id;
     $("#"+this._id).hide('slow', function() {
